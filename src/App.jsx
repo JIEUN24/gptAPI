@@ -1,35 +1,32 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from 'react';
+import './App.css';
+import { callGPT } from './api/gpt';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [data, setData] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
+  const handleClickAPICall = async () => {
+    try {
+      setIsLoading(true);
+      const message = await callGPT({
+        prompt: `코딩 강의를 들었다. 프로젝트에 버그가 많이 나왔음. 스택오버플로에서 검색했지만 해결 안되었어.
+        역시 gpt를 통해서 해결했다. 근데 이렇게 해결하는게 개발실력에 도움 될까..?`,
+      });
+      setData(message);
+    } catch (err) {
+      console.log('error: ', err);
+    } finally {
+      setIsLoading(false);
+    }
+  };
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <div>
+      <button onClick={handleClickAPICall}>gpt 호출</button>
+      <div>data: {data}</div>
+      <div>isLoading: {isLoading ? 'loading...' : 'done'}</div>
+    </div>
+  );
 }
 
-export default App
+export default App;
