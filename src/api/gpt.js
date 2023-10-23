@@ -53,6 +53,7 @@ export const callGPT = async ({ prompt }) => {
       """`,
     },
   ];
+
   const jsonData = {
     model: 'gpt-3.5-turbo',
     messages,
@@ -63,5 +64,5 @@ export const callGPT = async ({ prompt }) => {
   const res = await axios.post('https://api.openai.com/v1/chat/completions', jsonData, header);
   const data = res.data.choices[0].message.content;
 
-  return data;
+  return JSON.parse(data);
 };
