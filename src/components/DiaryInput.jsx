@@ -1,5 +1,6 @@
 import { Input, Button } from 'antd';
 import { useState } from 'react';
+import { StbodyWrapper } from './CommonStyle';
 const { TextArea } = Input;
 
 const DiaryInput = ({ isLoading, onSubmit }) => {
@@ -18,12 +19,12 @@ const DiaryInput = ({ isLoading, onSubmit }) => {
   };
 
   return (
-    <div>
+    <StbodyWrapper>
       <TextArea defaultValue={inputData} onChange={handleUserInput} placeholder='오늘 일어난 일을 간단히 적어주세요.' />
-      <Button loading={isLoading} onClick={handleClick}>
-        GPT 회고록 작성
+      <Button disabled={isLoading} onClick={handleClick} style={{ width: '100%', marginTop: '5px', fontFamily: 'Hi Melody', fontWeight: 700 }}>
+        {isLoading ? 'GPT 열일 중!' : 'GPT 회고록 작성을 부탁해!'}
       </Button>
-    </div>
+    </StbodyWrapper>
   );
 };
 
